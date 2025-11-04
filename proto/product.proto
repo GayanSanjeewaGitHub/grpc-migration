@@ -1,0 +1,104 @@
+syntax = "proto3";
+
+package product;
+
+// Product message definition
+message Product {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  double price = 4;
+  string category = 5;
+  bool in_stock = 6;
+  int32 quantity = 7;
+  string created_at = 8;
+}
+
+// Request messages
+message GetProductsRequest {
+  string category = 1;    // Optional filter
+  bool in_stock = 2;      // Optional filter
+  double min_price = 3;   // Optional filter
+  double max_price = 4;   // Optional filter
+}
+
+message GetProductByIdRequest {
+  string id = 1;
+}
+
+message GetProductsByCategoryRequest {
+  string category = 1;
+}
+
+message CreateProductRequest {
+  string name = 1;
+  string description = 2;
+  double price = 3;
+  string category = 4;
+  int32 quantity = 5;
+}
+
+message UpdateProductRequest {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  double price = 4;
+  string category = 5;
+  bool in_stock = 6;
+  int32 quantity = 7;
+}
+
+message DeleteProductRequest {
+  string id = 1;
+}
+
+// Response messages
+message GetProductsResponse {
+  bool success = 1;
+  int32 count = 2;
+  repeated Product products = 3;
+  string error = 4;
+}
+
+message GetProductByIdResponse {
+  bool success = 1;
+  Product product = 2;
+  string error = 3;
+}
+
+message GetProductsByCategoryResponse {
+  bool success = 1;
+  string category = 2;
+  int32 count = 3;
+  repeated Product products = 4;
+  string error = 5;
+}
+
+message CreateProductResponse {
+  bool success = 1;
+  Product product = 2;
+  string error = 3;
+}
+
+message UpdateProductResponse {
+  bool success = 1;
+  Product product = 2;
+  string error = 3;
+}
+
+message DeleteProductResponse {
+  bool success = 1;
+  string message = 2;
+  Product product = 3;
+  string error = 4;
+}
+
+// Product service definition
+service ProductService {
+  rpc GetProducts(GetProductsRequest) returns (GetProductsResponse);
+  rpc GetProductById(GetProductByIdRequest) returns (GetProductByIdResponse);
+  rpc GetProductsByCategory(GetProductsByCategoryRequest) returns (GetProductsByCategoryResponse);
+  rpc CreateProduct(CreateProductRequest) returns (CreateProductResponse);
+  rpc UpdateProduct(UpdateProductRequest) returns (UpdateProductResponse);
+  rpc DeleteProduct(DeleteProductRequest) returns (DeleteProductResponse);
+}

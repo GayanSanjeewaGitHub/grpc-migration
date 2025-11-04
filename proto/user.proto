@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+package user;
+
+// User message definition
+message User {
+  string id = 1;
+  string name = 2;
+  string email = 3;
+  int32 age = 4;
+  string department = 5;
+  bool is_active = 6;
+  string created_at = 7;
+}
+
+// Request messages
+message GetUsersRequest {
+  string department = 1;  // Optional filter
+  bool is_active = 2;     // Optional filter
+}
+
+message GetUserByIdRequest {
+  string id = 1;
+}
+
+message CreateUserRequest {
+  string name = 1;
+  string email = 2;
+  int32 age = 3;
+  string department = 4;
+}
+
+message UpdateUserRequest {
+  string id = 1;
+  string name = 2;
+  string email = 3;
+  int32 age = 4;
+  string department = 5;
+  bool is_active = 6;
+}
+
+message DeleteUserRequest {
+  string id = 1;
+}
+
+// Response messages
+message GetUsersResponse {
+  bool success = 1;
+  int32 count = 2;
+  repeated User users = 3;
+  string error = 4;
+}
+
+message GetUserByIdResponse {
+  bool success = 1;
+  User user = 2;
+  string error = 3;
+}
+
+message CreateUserResponse {
+  bool success = 1;
+  User user = 2;
+  string error = 3;
+}
+
+message UpdateUserResponse {
+  bool success = 1;
+  User user = 2;
+  string error = 3;
+}
+
+message DeleteUserResponse {
+  bool success = 1;
+  string message = 2;
+  User user = 3;
+  string error = 4;
+}
+
+// User service definition
+service UserService {
+  rpc GetUsers(GetUsersRequest) returns (GetUsersResponse);
+  rpc GetUserById(GetUserByIdRequest) returns (GetUserByIdResponse);
+  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
+  rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse);
+  rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse);
+}
